@@ -98,3 +98,4 @@ if converted_timestamps:
 write_output("\n============================================")
 write_output("Investigation Completed")
 write_output("============================================")
+print("Output saved in /tmp/heliosOut.txt")
