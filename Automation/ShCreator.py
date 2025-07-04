@@ -169,14 +169,17 @@ write_output(ServicesUptime())
 write_output("{code}\n")
 write_output("----\n")
 write_output("h3.*FATALS*\n")
-write_output()
+write_output(fetchFatals())
 write_output("\n")
 write_output("----\n")
-write_output("h3.*CatFatals*\n")
+write_output("h3.*Gflag List*\n")
+write_output("{code:java}\n")
+write_output(gflagList())
+write_output("{code}\n")
+write_output("h2.*Ask to CDP:*")
 
-write_output(ServicesUptime())
 
-#Still lacks info, next 2 sprints will start testing.
+
 
 
 
