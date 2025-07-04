@@ -1,12 +1,14 @@
 import subprocess
 import getpass
+import datetime
 import sys
+import re
 
 outputFile = "SH_Template.txt"
 #Making compatible the Script with Py2 and Py3
 
 def write_output(content):
-    with (outputFile,'a') as f:
+    with open(outputFile,'a') as f:
         f.write(content + "\n")
 
 
@@ -48,9 +50,79 @@ def clusterInfo():
 def gflagList():
     run_command(f"iris_cli -username="+username,"-password=" + password," cluster ls-gflags verbose=true")
 
-def ServicesUptime():
 
-    run_command("echo -e "\n\033[7m +++ BRIDGE +++ \033[0m\n" ; echo "" > /tmp/services.txt ; for host in $(hostips) ; do echo -e "${host} \t-\t $(elinks -dump-width 200 http:$host:11111 | head | grep Constituent.Uptime | sed 's/^[ \t]//; s/Constituent Uptime//')" ; done >> /tmp/services.txt && cat /tmp/services.txt | sort -k 4,4 -k 3,3n -r;echo -e "\n\033[7m +++ MAGNETO +++ \033[0m\n" ; echo "" > /tmp/services.txt ; for host in $(hostips) ; do echo -e "${host} \t-\t $(elinks -dump-width 200 http:$host:20000 | head | grep Constituent.Uptime | sed 's/^[ \t]//; s/Constituent Uptime//')" ; done >> /tmp/services.txt && cat /tmp/services.txt | sort -k 4,4 -k 3,3n -r;echo -e "\n\033[7m +++ BRIDGE PROXY +++ \033[0m\n" ; echo "" > /tmp/services.txt ; for host in $(hostips) ; do echo -e "${host} \t-\t $(elinks -dump-width 200 http:$host:11116 | head | grep Constituent.Uptime | sed 's/^[ \t]//; s/Constituent Uptime//')" ; done >> /tmp/services.txt && cat /tmp/services.txt | sort -k 4,4 -k 3,3n -r;echo -e "\n\033[7m +++  Storage Proxy +++ \033[0m\n" ; echo "" > /tmp/services.txt ; for host in $(hostips) ; do echo -e "${host} \t-\t $(elinks -dump-width 200 http:$host:20001 | head | grep Uptime | sed 's/^[ \t]//; s/Uptime//')" ; done >> /tmp/services.txt && cat /tmp/services.txt | sort -k 4,4 -k 3,3n -r;echo -e "\n\033[7m +++ SMB2Proxy +++ \033[0m\n" ; echo "" > /tmp/services.txt ; for host in $(hostips) ; do echo -e "${host} \t-\t $(elinks -dump-width 200 http:$host:20007 | head | grep Uptime | sed 's/^[ \t]//; s/Uptime//')" ; done >> /tmp/services.txt && cat /tmp/services.txt | sort -k 4,4 -k 3,3n -r;echo -e "\n\033[7m +++ Stats +++ \033[0m\n" ; echo "" > /tmp/services.txt ; for host in $(hostips) ; do echo -e "${host} \t-\t $(elinks -dump-width 200 http:$host:25566 | head | grep Constituent.Uptime | sed 's/^[ \t]//; s/Constituent Uptime//')" ; done >> /tmp/services.txt && cat /tmp/services.txt | sort -k 4,4 -k 3,3n -r;echo -e "\n\033[7m +++ YODA +++ \033[0m\n" ; echo "" > /tmp/services.txt ; for host in $(hostips) ; do echo -e "${host} \t-\t $(elinks -dump-width 200 http:$host:25999 | head | grep Constituent.Uptime | sed 's/^[ \t]//; s/Constituent Uptime//')" ; done >> /tmp/services.txt && cat /tmp/services.txt | sort -k 4,4 -k 3,3n -r;echo -e "\n\033[7m +++ Apollo +++ \033[0m\n" ; echo "" > /tmp/services.txt ; for host in $(hostips) ; do echo -e "${host} \t-\t $(elinks -dump-width 200 http:$host:24680 | head | grep Constituent.Uptime | sed 's/^[ \t]//; s/Constituent Uptime//')" ; done >> /tmp/services.txt && cat /tmp/services.txt | sort -k 4,4 -k 3,3n -r;echo -e "\n\033[7m +++ GANDALF +++ \033[0m\n" ; echo "" > /tmp/services.txt ; for host in $(hostips) ; do echo -e "${host} \t-\t $(elinks -dump-width 200 http:$host:22222 | head | grep Constituent.Uptime | sed 's/^[ \t]//; s/Constituent Uptime//')" ; done >> /tmp/services.txt && cat /tmp/services.txt | sort -k 4,4 -k 3,3n -r;echo -e "\n\033[7m +++ NewScribe +++ \033[0m\n" ; echo "" > /tmp/services.txt ; for host in $(hostips) ; do echo -e "${host} \t-\t $(elinks -dump-width 200 http:$host:12222 | head | grep Node.Uptime | sed 's/^[ \t]//; s/Node Uptime//')" ; done >> /tmp/services.txt && cat /tmp/services.txt | sort -k 4,4 -k 3,3n -r;echo -e "\n\033[7m +++ Groot +++ \033[0m\n" ; echo "" > /tmp/services.txt ; for host in $(hostips) ; do echo -e "${host} \t-\t $(elinks -dump-width 200 http:$host:26999 | head | grep Constituent.Uptime | sed 's/^[ \t]//; s/Constituent Uptime//')" ; done >> /tmp/services.txt && cat /tmp/services.txt | sort -k 4,4 -k 3,3n -r;echo -e "\n\033[7m +++ Alerts +++ \033[0m\n" ; echo "" > /tmp/services.txt ; for host in $(hostips) ; do echo -e "${host} \t-\t $(elinks -dump-width 200 http:$host:21111 | head | grep Constituent.Uptime | sed 's/^[ \t]//; s/Constituent Uptime//')" ; done >> /tmp/services.txt && cat /tmp/services.txt | sort -k 4,4 -k 3,3n -r;echo -e "\n\033[7m +++ KeyChain +++ \033[0m\n" ; echo "" > /tmp/services.txt ; for host in $(hostips) ; do echo -e "${host} \t-\t $(elinks -dump-width 200 http:$host:22000 | head | grep Constituent.Uptime | sed 's/^[ \t]*//; s/Constituent Uptime//')" ; done >> /tmp/services.txt && cat /tmp/services.txt | sort -k 4,4 -k 3,3n -r;echo -e "\n\033[7m +++ Yoda Agent +++ \033[0m\n";allssh.sh "links http:198.18.0.102:26662 | grep -i uptime"")
+
+#Getting uptime of all services in all nodes.
+# Define the services and their ports.
+services = {
+    "BRIDGE": 11111,
+    "MAGNETO": 20000,
+    "BRIDGE PROXY": 11116,
+    "Storage Proxy": 20001,
+    "SMB2Proxy": 20007,
+    "Stats": 25566,
+    "YODA": 25999,
+    "Apollo": 24680,
+    "GANDALF": 22222,
+    "NewScribe": 12222,
+    "Groot": 26999,
+    "Alerts": 21111,
+    "KeyChain": 22000,
+}
+
+def get_host_ips():
+    try:
+        output = subprocess.check_output("hostips", shell=True).decode().strip()
+        return output.split()
+    except Exception as e:
+        print("Error getting host IPs:", e)
+        return []
+
+def extract_uptime(html):
+    # Look for multiple uptime formats
+    patterns = [
+        r'Constituent\.? Uptime\s*[:\-]?\s*(.*)',
+        r'Node\.? Uptime\s*[:\-]?\s*(.*)',
+        r'Uptime\s*[:\-]?\s*(.*)'
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, html, re.IGNORECASE)
+        if match:
+            return match.group(1).strip()
+    return "N/A"
+
+def query_service_uptime(host, port):
+    url = f"http://{host}:{port}"
+    try:
+        output = subprocess.check_output(
+            ["elinks", "-dump-width", "200", url],
+            stderr=subprocess.DEVNULL
+        ).decode()
+
+        # DEBUG: Uncomment to inspect raw output for any specific host
+        # if host == "172.27.136.32" and port == 11111:
+        #     print(f"\n--- elinks output for {url} ---\n{output}\n---\n")
+
+        uptime = extract_uptime(output)
+        return uptime
+    except Exception:
+        return "ERROR"
+
+def ServicesUptime():
+    host_ips = get_host_ips()
+    results = []
+
+    for service_name, port in services.items():
+        results.append(f"\n+++ {service_name} +++\n")
+        for host in host_ips:
+            uptime = query_service_uptime(host, port)
+            results.append(f"{host} - {uptime}")
+
+    return "\n".join(results)
+
+def fetchFatals():
+    cmd = 'allssh.sh "ls -ltra /home/cohesity/logs/ | grep \'.*\\.FATAL\' | tail -3"'
+    run_command(cmd)
 
 
 upgradeHistory = run_command("cat /home/cohesity/data/nexus/software_version_history.json")
@@ -89,6 +161,21 @@ write_output("h3.*Update/Upgrade History:*\n")
 write_output("{code:java}\n")
 write_output(upgradeHistory)
 write_output("{code}/n")
+write_output("\n")
+write_output("----\n")
+write_output("h3.*Services Uptime*\n")
+write_output("{code:java}\n")
+write_output(ServicesUptime())
+write_output("{code}\n")
+write_output("----\n")
+write_output("h3.*FATALS*\n")
+write_output()
+write_output("\n")
+write_output("----\n")
+write_output("h3.*CatFatals*\n")
+
+write_output(ServicesUptime())
+
 #Still lacks info, next 2 sprints will start testing.
 
 
